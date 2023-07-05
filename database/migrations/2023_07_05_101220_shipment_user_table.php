@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('shipment_user', function (Blueprint $table) {
             $table->foreignId('shipment_id');
             $table->foreignId('user_id');
+            $table->timestamps();
         });
     }
 
