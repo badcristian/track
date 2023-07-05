@@ -22,4 +22,10 @@ class Shipment extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    // TODO -- need 2 types of stops
+    public function stops()
+    {
+        return $this->hasMany(ShipmentStop::class);
+    }
 }

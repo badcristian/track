@@ -10,8 +10,8 @@ class Address extends Model
 {
     use HasFactory;
 
-    public function shipments(): HasMany
+    public function shipment_stops(): HasMany
     {
-        return $this->hasMany(Shipment::class);
+        return $this->hasMany(ShipmentStop::class);
     }
 }
