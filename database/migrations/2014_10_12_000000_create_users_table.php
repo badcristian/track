@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone');
+            $table->foreignId('company_id')->nullable();
             $table->boolean('active')->default(true);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

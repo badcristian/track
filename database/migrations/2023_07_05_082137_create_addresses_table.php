@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('addresses', function (Blueprint $table) {
@@ -18,13 +15,12 @@ return new class extends Migration
             $table->string('state');
             $table->string('zip_code');
             $table->string('country')->default('zanzibar');
+            $table->decimal('latitude',5,3)->nullable(); //TODO
+            $table->decimal('longitude',6,3)->nullable(); //TODO
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('addresses');

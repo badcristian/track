@@ -8,17 +8,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id');
+        Schema::create('shipment_user', function (Blueprint $table) {
             $table->foreignId('shipment_id');
-            $table->text('body');
-            $table->timestamps();
+            $table->foreignId('user_id');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('shipment_user');
     }
 };

@@ -15,6 +15,11 @@ return new class extends Migration
             $table->string('mc')->nullable();
             $table->string('dot')->nullable();
             $table->string('about')->nullable();
+            $table->string('street_address');
+            $table->string('city');
+            $table->string('state');
+            $table->string('zip_code');
+            $table->string('country')->default('usa');
             $table->string('phone')->nullable();
 
             $table->timestamps();

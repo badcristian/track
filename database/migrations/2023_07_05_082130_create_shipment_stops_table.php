@@ -11,12 +11,11 @@ return new class extends Migration
     {
         Schema::create('shipment_stops', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('address_id');
             $table->timestamp('pickup_time');
             $table->timestamp('delivery_time');
             $table->string('reference_numbers');
             $table->string('status');    //TODO
-            $table->decimal('latitude',5,3)->nullable(); //TODO
-            $table->decimal('longitude',6,3)->nullable(); //TODO
             $table->timestamps();
         });
     }
