@@ -17,7 +17,10 @@ class ShipmentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'weight' => fake()->numberBetween(1, 60000),
+            'temperature' => fake()->numberBetween(-30, 150),
+            'equipment_type' => 'some type',
+            'notes' => fake()->text(20)
         ];
     }
 }

@@ -17,7 +17,10 @@ class ShipmentStopFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'pickup_time' => fake()->dateTime(),
+            'delivery_time' => fake()->dateTime(),
+            'reference_numbers' => fake()->numberBetween(1,100) . fake()->word,
+            'status' => 'some status'
         ];
     }
 }
