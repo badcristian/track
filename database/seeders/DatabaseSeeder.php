@@ -23,25 +23,27 @@ class DatabaseSeeder extends Seeder
                 ->create()
                 ->each(function ($shipment) {
 
-                $users = User::factory(2)
-                    ->for(Company::factory())
-                    ->create();
+                    $users = User::factory(2)
+                        ->for(Company::factory())
+                        ->create()
+                        ->each(function ($user) use ($shipment) {
 
-                $shipmentStops = ShipmentStop::factory(3)->state([
-                    'address_id' => fn() => Address::factory()->create(),
-                    'shipment_id' => $shipment->id
-                ])->create();
+                            $comment = Comment::factory()->state([
+                                'user_id' => $user->id,
+                                'shipment_id' => $shipment->id
+                            ])->create();
 
-                $users->each(function ($user) use ($shipment){
-                    $user->comments()->save(Comment::factory()->state([
-                        'user_id' => $user->id,
+                            $user->comments()->save($comment);
+                        });
+
+                    $shipmentStops = ShipmentStop::factory(3)->state([
+                        'address_id' => fn() => Address::factory()->create(),
                         'shipment_id' => $shipment->id
-                    ])->create());
-                });
+                    ])->create();
 
-                $shipment->users()->attach($users);
-                $shipment->stops()->saveMany($shipmentStops);
-            });
+                    $shipment->users()->attach($users);
+                    $shipment->stops()->saveMany($shipmentStops);
+                });
 
 
 //
