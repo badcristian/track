@@ -1,11 +1,11 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import TextInput from '@/Components/TextInput.vue';
+import Checkbox from '@/Components/Inputs/Checkbox.vue';
+import InputError from '@/Components/Inputs/InputError.vue';
+import InputLabel from '@/Components/Inputs/InputLabel.vue';
+import TextInput from '@/Components/Inputs/TextInput.vue';
 import {Head, Link, useForm} from '@inertiajs/vue3';
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
-import CodeInput from "@/Components/CodeInput.vue";
+import ApplicationLogo from "@/Components/Icons/ApplicationLogo.vue";
+import CodeInput from "@/Components/Inputs/CodeInput.vue";
 import {onMounted, onUnmounted, ref} from "vue";
 
 const props = defineProps({

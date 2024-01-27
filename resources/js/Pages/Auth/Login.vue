@@ -1,8 +1,8 @@
 <script setup>
-import InputError from '@/Components/InputError.vue';
-import TextInput from '@/Components/TextInput.vue';
+import InputError from '@/Components/Inputs/InputError.vue';
+import TextInput from '@/Components/Inputs/TextInput.vue';
 import {Head, Link, useForm} from '@inertiajs/vue3';
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import ApplicationLogo from "@/Components/Icons/ApplicationLogo.vue";
 
 const props = defineProps({
     status: String
