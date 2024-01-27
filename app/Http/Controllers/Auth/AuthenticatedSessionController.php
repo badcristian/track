@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
+use App\Notifications\VerifyUser;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,32 +16,43 @@ use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
-    public function create(): Response
+    public function create()
     {
-        return Inertia::render('Auth/Login', [
-            'canResetPassword' => Route::has('password.request'),
-            'status' => session('status'),
+        return inertia('Auth/Login', [
+            'status' => session('status')
         ]);
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        $request->authenticate();
+        $request->validate(['email' => 'required|string|email|max:255']);
 
-        $request->session()->regenerate();
+        $user = User::where(['email' => $request->input('email')])->first();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if (!$user) {
+            return redirect()->route('register', [
+                'email' => $request->input('email'),
+                'number' => $request->input('number')
+            ]);
+        }
+
+        if (!$user->hasVerifiedEmail()) {
+            return redirect()->route('verification.notice', ['email' => $user->getEmailForVerification()]);
+        }
+
+        $code = rand(1111, 9999);
+
+        $user->fill([
+            'login_token' => $code . 'exp' . now()->addHour()->timestamp
+        ])->save();
+
+        $user->notify(new VerifyUser($code));
+
+        return redirect()
+            ->route('verify.user', ['email' => $request->input('email')])
+            ->with(['status' => 'Code was sent to your email']);
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
@@ -48,6 +61,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }
