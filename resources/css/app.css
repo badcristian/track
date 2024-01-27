@@ -1,3 +1,54 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .dropdown-mobile {
+        @apply fixed inset-x-0 bottom-0 top-1/2 bg-gray-700 z-40 rounded-t-3xl pt-[2rem] border-t border-gray-600
+    }
+
+    .dropdown-desktop {
+        @apply absolute z-50 mt-2 shadow-lg min-w-[15rem] left-[50%] translate-x-[-50%]
+        bg-gray-700 rounded-md py-2 border border-gray-600
+    }
+
+    .tooltip-arrow-left {
+        @apply before:content-[''] before:absolute before:top-1/2  before:right-[100%] before:-translate-y-1/2 before:border-8
+        before:border-y-transparent before:border-l-transparent before:border-r-gray-200
+    }
+
+    .gradient {
+        @apply bg-gray-800 bg-gradient-to-b from-gray-700/60 via-transparent
+    }
+
+    .gradient-tr {
+        @apply bg-gray-800 bg-gradient-to-tr from-gray-700/60 via-transparent
+    }
+
+    .gradient-bl {
+        @apply bg-gray-800 bg-gradient-to-bl from-gray-700/60 via-transparent
+    }
+
+    .spinner-icon {
+        width: 18px;
+        height: 18px;
+        box-sizing: border-box;
+
+        border: solid 2px transparent;
+        border-top-color: #fb923c;
+        border-left-color: #fb923c;
+        border-radius: 50%;
+
+        -webkit-animation: nprogress-spinner 400ms linear infinite;
+        animation: nprogress-spinner 400ms linear infinite;
+    }
+
+    @-webkit-keyframes nprogress-spinner {
+        0%   { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+    @keyframes nprogress-spinner {
+        0%   { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+}
