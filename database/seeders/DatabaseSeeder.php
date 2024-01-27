@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
     {
         if (!App::environment('production')) {
 
-            $this->addAdminUserIfDontExist();
+//            $this->addAdminUserIfDontExist();
 
             Company::factory()->count(10)->create();
             User::factory()->for(Company::all()->random())->create();
@@ -65,17 +65,17 @@ class DatabaseSeeder extends Seeder
 
     /////////////////////////////////////////////////////////////////////////////
 
-    private function addAdminUserIfDontExist()
-    {
-        if (User::where('email', 'test@test.com')->doesntExist()) {
-            User::create([
-                'name' => 'John Doe',
-                'email' => 'test@test.com',
-                'phone' => '20686693404',
-                'company_id' => Company::factory()->create()->getKey(),
-            ]);
-        }
-    }
+//    private function addAdminUserIfDontExist()
+//    {
+//        if (User::where('email', 'test@test.com')->doesntExist()) {
+//            User::create([
+//                'name' => 'John Doe',
+//                'email' => 'test@test.com',
+//                'phone' => '20686693404',
+//                'company_id' => Company::factory()->create()->getKey(),
+//            ]);
+//        }
+//    }
 
     private function addBrokerTo($shipment): void
     {

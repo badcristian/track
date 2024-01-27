@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->string('phone');
             $table->boolean('active')->default(true);
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('login_token', 200)->nullable();
 //            $table->string('password');
 //            $table->string('profile_photo_path', 2048)->nullable();
             $table->foreignId('company_id')->constrained('companies')->restrictOnDelete();
