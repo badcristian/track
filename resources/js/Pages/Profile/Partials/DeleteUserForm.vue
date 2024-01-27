@@ -1,10 +1,7 @@
 <script setup>
-import DangerButton from '@/Components/DangerButton.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import Modal from '@/Components/Modal.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import  InputError from '@/Components/Inputs/InputError.vue';
+import InputLabel from '@/Components/Inputs/InputLabel.vue';
+import TextInput from '@/Components/Inputs/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import { nextTick, ref } from 'vue';
 
@@ -48,9 +45,9 @@ const closeModal = () => {
             </p>
         </header>
 
-        <DangerButton @click="confirmUserDeletion">Delete Account</DangerButton>
+<!--        <DangerButton @click="confirmUserDeletion">Delete Account</DangerButton>-->
 
-        <Modal :show="confirmingUserDeletion" @close="closeModal">
+<!--        <Modal :show="confirmingUserDeletion" @close="closeModal">-->
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900">
                     Are you sure you want to delete your account?
@@ -78,18 +75,18 @@ const closeModal = () => {
                 </div>
 
                 <div class="mt-6 flex justify-end">
-                    <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
+<!--                    <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>-->
 
-                    <DangerButton
+<!--                    <DangerButton-->
                         class="ms-3"
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
                         @click="deleteUser"
                     >
                         Delete Account
-                    </DangerButton>
+<!--                    </DangerButton>-->
                 </div>
             </div>
-        </Modal>
+<!--        </Modal>-->
     </section>
 </template>
