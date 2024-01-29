@@ -18,11 +18,11 @@ class VerifyEmailController extends Controller
         $user = User::find($request->route('id'));
 
         if (!$user) {
-            abort(401);
+            return redirect(route('login'))->with(['status', 'Something went wrong, try again']);
         }
 
         if (!hash_equals(sha1($user->getEmailForVerification()), (string)$request->route('hash'))) {
-            abort(401);
+            return redirect(route('login'))->with(['status', 'Something went wrong, try again']);
         }
 
         if ($user->hasVerifiedEmail()) {

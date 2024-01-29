@@ -14,11 +14,13 @@ class EmailVerificationPromptController extends Controller
 {
     public function __invoke(Request $request): RedirectResponse|Response
     {
-        $request->validate(['email' => 'required|string|email|max:255|exists:users,email']);
+        $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255']
+        ]);
 
         $user = User::where(['email' => $request->input('email')])->first();
 
-        return $user->hasVerifiedEmail()
+        return !$user || $user->hasVerifiedEmail()
             ? redirect()->intended(RouteServiceProvider::HOME)
             : inertia('Auth/VerifyEmail', [
                 'email' => $request->input('email'),
