@@ -3,17 +3,28 @@
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Verified;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\URL;
+use Inertia\Testing\AssertableInertia as Assert;
 
 test('email verification screen can be rendered', function () {
+
     $user = User::factory()->create([
         'email_verified_at' => null,
     ]);
 
-    $response = $this->actingAs($user)->get('/verify-email');
+    $response = $this->get(route('verification.notice', ['email' => $user->email]));
 
-    $response->assertStatus(200);
+    $response->assertInertia(fn(Assert $page) => $page
+        ->component('Auth/VerifyEmail'));
+});
+
+test('redirect to home if email already verified', function () {
+    $user = User::factory()->create([
+        'email_verified_at' => now(),
+    ]);
+
+    $response = $this->get('/verify-email', ['email' => $user->email]);
+
+    $response->assertRedirect();
 });
 
 test('email can be verified', function () {
@@ -29,11 +40,11 @@ test('email can be verified', function () {
         ['id' => $user->id, 'hash' => sha1($user->email)]
     );
 
-    $response = $this->actingAs($user)->get($verificationUrl);
+    $response = $this->get($verificationUrl);
 
     Event::assertDispatched(Verified::class);
     expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
-    $response->assertRedirect(RouteServiceProvider::HOME.'?verified=1');
+    $response->assertRedirect(RouteServiceProvider::HOME . '?verified=1');
 });
 
 test('email is not verified with invalid hash', function () {
@@ -47,7 +58,7 @@ test('email is not verified with invalid hash', function () {
         ['id' => $user->id, 'hash' => sha1('wrong-email')]
     );
 
-    $this->actingAs($user)->get($verificationUrl);
+    $this->get($verificationUrl);
 
     expect($user->fresh()->hasVerifiedEmail())->toBeFalse();
 });
