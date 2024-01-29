@@ -2,17 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\LoginAttempt;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
-use App\Notifications\VerifyUser;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -42,11 +37,13 @@ class AuthenticatedSessionController extends Controller
 
         $code = rand(1111, 9999);
 
-        $user->fill([
-            'login_token' => $code . 'exp' . now()->addHour()->timestamp
-        ])->save();
+        $token = $code . 'exp' . now()
+                ->addSeconds(config('track.login_code.expires_after'))
+                ->timestamp;
 
-        $user->notify(new VerifyUser($code));
+        $user->fill(['login_token' => $token])->save();
+
+        event(new LoginAttempt($user, $code));
 
         return redirect()
             ->route('verify.user', ['email' => $request->input('email')])

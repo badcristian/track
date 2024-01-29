@@ -11,7 +11,7 @@ class VerifyUser extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(private readonly string $token)
+    public function __construct(public readonly string $code)
     {
         $this->afterCommit();
     }
@@ -24,8 +24,8 @@ class VerifyUser extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Login code: ' . $this->token)
-            ->markdown('mail.login-code', ['token' => $this->token]);
+            ->subject('Login code: ' . $this->code)
+            ->markdown('mail.login-code', ['token' => $this->code]);
     }
 
     public function toArray(object $notifiable): array
